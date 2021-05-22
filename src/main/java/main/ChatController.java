@@ -7,6 +7,7 @@ import main.repos.UserRepository;
 import main.response.AddMessageResponse;
 import main.response.AuthResponse;
 import main.response.MessageResponse;
+import main.response.UserResponseItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -43,11 +44,26 @@ public class ChatController {
         return response;
     }
 
+//    @GetMapping(path = "/api/users")
+//    public List<String> getUsers() {
+//        List<String> list = new ArrayList<>();
+//        userRepository.findAll().forEach(o -> list.add(o.getName()));
+//        return list;
+//    }
+
     @GetMapping(path = "/api/users")
-    public List<String> getUsers() {
-        List<String> list = new ArrayList<>();
-        userRepository.findAll().forEach(o -> list.add(o.getName()));
-        return list;
+    public HashMap<String, List> getUsers() {
+        Iterable<User> users = userRepository.findAll();
+        ArrayList<UserResponseItem> userItems = new ArrayList<>();
+        for (User user : users) {
+            UserResponseItem userResponseItem = new UserResponseItem();
+            userResponseItem.setName(user.getName());
+            userResponseItem.setId(user.getId());
+            userItems.add(userResponseItem);
+        }
+        HashMap<String, List> result = new HashMap<>();
+        result.put("users", userItems);
+        return result;
     }
 
     @PostMapping(path = "/api/users")
