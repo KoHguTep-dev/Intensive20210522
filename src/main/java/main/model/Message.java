@@ -5,12 +5,11 @@ import java.util.Date;
 
 @Entity
 public class Message {
-
-    @Id @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
-    private Date time;
-
+    private Date sendTime;
+    @Column(columnDefinition="TEXT")
     private String text;
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -25,12 +24,12 @@ public class Message {
         this.id = id;
     }
 
-    public Date getTime() {
-        return time;
+    public Date getSendTime() {
+        return sendTime;
     }
 
-    public void setTime(Date time) {
-        this.time = time;
+    public void setSendTime(Date sendTime) {
+        this.sendTime = sendTime;
     }
 
     public String getText() {
